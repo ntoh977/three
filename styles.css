@@ -1,0 +1,464 @@
+
+:root {
+    font-size: 14px;
+}
+
+.tree-view {
+    position: relative;
+    
+    display: none;
+    flex-direction: column;
+    
+    width: max-content;
+    
+    font-size: 1.25rem;
+    
+    padding-left: 1rem;
+    
+    user-select: none;
+}
+
+.branch-node {
+    position: relative;
+    
+    padding-left: 2rem;
+    
+    cursor: pointer;
+}
+
+.branch-node::before, .branches > ::before {
+    content: "";
+    
+    position: absolute;
+    
+    left: -0.5rem;
+    top: 1.5rem;
+    
+    width: 3rem;
+    
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+}
+
+.branch-node:not(:last-child)::before, .branches > :not(:last-child)::before {
+    height: 100%;
+}
+
+.branch-node:last-child::before, .branches > :last-child::before {
+    border-top: 0;
+    border-bottom: 2px solid black;
+}
+
+:not(.tree-view) > .branch-node:first-child::after, .branches > :first-child::after {
+    content: "";
+    
+    position: absolute;
+    
+    left: -0.5rem;
+    top: -1.5rem;
+    
+    height: 3rem;
+    
+    border-left: 2px solid black;
+}
+
+.branch-title {
+    position: relative;
+    
+    display: list-item;
+    list-style: none;
+    
+    width: max-content;
+    height: 3rem;
+    line-height: 3rem;
+    
+    padding-left: 3rem;
+    padding-right: 1rem;
+    padding-bottom: 1.5rem;
+}
+
+.branch-title::before {
+    content: "►";
+    
+    position: absolute;
+    
+    left: 1rem;
+    
+    margin-right: 1rem;    
+}
+
+.branch-node.open > .branch-title::before {
+    transform: rotate(90deg);
+}
+
+.branch-node.open > .branches {
+    display: initial;
+}
+
+.branches {
+    display: none;
+    
+    padding: 0;
+    margin: 0;
+}
+
+.branches > .branch-node {
+    margin-left: 2rem;
+}
+
+.branches > li {
+    position: relative;
+    
+    list-style: none;
+    
+    width: fit-content;
+    min-height: 4rem;
+    line-height: 3rem;
+    
+    margin-left: 2rem;
+    padding-left: 3rem;
+}
+/* button */ 
+.icon-btn {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #cdcdcd;
+    background: white;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    transition: width 0.2s ease-in-out;
+    font-weight: 500;
+    font-family: inherit;
+  }
+  
+  .add-btn:hover {
+    width: 120px;
+  }
+  
+  .add-btn::before,
+  .add-btn::after {
+    transition: width 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 4px;
+    width: 10px;
+    top: calc(50% - 2px);
+    background: seagreen;
+  }
+  
+  .add-btn::after {
+    right: 14px;
+    overflow: hidden;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+  
+  .add-btn::before {
+    left: 14px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+  
+  .icon-btn:focus {
+    outline: none;
+  }
+  
+  .btn-txt {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  .add-btn:hover::before,
+  .add-btn:hover::after {
+    width: 4px;
+    border-radius: 2px;
+  }
+  
+  .add-btn:hover .btn-txt {
+    opacity: 1;
+  }
+  
+  .add-icon::after,
+  .add-icon::before {
+    transition: all 0.2s ease-in-out;
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 2px;
+    top: calc(50% - 10px);
+    background: seagreen;
+    overflow: hidden;
+  }
+  
+  .add-icon::before {
+    left: 22px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+  }
+  
+  .add-icon::after {
+    right: 22px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+  
+  .add-btn:hover .add-icon::before {
+    left: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
+  }
+  
+  .add-btn:hover .add-icon::after {
+    right: 15px;
+    height: 4px;
+    top: calc(50% - 2px);
+  }
+  /* minus btn */
+  .minus {
+    padding: 1.3em 3em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .minus:hover {
+    background-color: #23c483;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+  
+  .minus:active {
+    transform: translateY(-1px);
+  }
+  /* modal window */
+  
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+  }
+
+  .text_modal {
+font-size: 24px;
+  }
+  /* Add Animation */
+  @-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+  }
+  
+  @keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .modal-header {
+    padding: 2px 16px;
+    color: #000;
+    border-bottom: 1px solid silver;
+  }
+  
+  .modal-body {padding: 2px 16px;
+    border-bottom: 1px solid silver;}
+  
+  .modal-footer {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content:  space-between;
+  }
+  .branch-node.mod {
+    position: revert;
+}
+.branch-node.mod .branch-title{
+   padding-left:0;
+} 
+.branch-node.mod .branch-title::before {
+    left: -2rem;
+}
+#timeOut{
+    color: red;
+    font-size: 22px;
+    padding-left: 9px;
+}
+  /* btn yes_btn */
+  #btn_yes{
+pointer-events: none;
+opacity: 0.5;
+margin-right: 5px;
+  }
+.yes_btn {
+    /* Variables */
+   --button_radius: 0.75em;
+   --button_color: #e8e8e8;
+   --button_outline_color: #000000;
+   font-size: 17px;
+   font-weight: bold;
+   border: none;
+   border-radius: var(--button_radius);
+   background: var(--button_outline_color);
+  }
+  
+  .button_top {
+   display: block;
+   box-sizing: border-box;
+   border: 2px solid var(--button_outline_color);
+   border-radius: var(--button_radius);
+   padding: 0.75em 1.5em;
+   background: var(--button_color);
+   color: var(--button_outline_color);
+   transform: translateY(-0.2em);
+   transition: transform 0.1s ease;
+  }
+  
+  .yes_btn:hover .button_top {
+    /* Pull the button upwards when hovered */
+   transform: translateY(-0.33em);
+  }
+  
+  .yes_btn:active .button_top {
+    /* Push the button downwards when pressed */
+   transform: translateY(0);
+  }
+  /* input */ 
+
+.group {
+ position: relative;
+}
+
+.input {
+ font-size: 16px;
+ padding: 10px 10px 10px 5px;
+ display: block;
+ width: 200px;
+ border: none;
+ background: transparent;
+}
+
+.input:focus {
+ outline: none;
+}
+
+label {
+ color: #999;
+ font-size: 18px;
+ font-weight: normal;
+ position: absolute;
+ pointer-events: none;
+ left: 5px;
+ top: 10px;
+ transition: 0.2s ease all;
+ -moz-transition: 0.2s ease all;
+ -webkit-transition: 0.2s ease all;
+}
+
+.input:focus ~ label, .input:valid ~ label {
+ top: -20px;
+ font-size: 14px;
+ color: #5264AE;
+}
+
+.bar {
+ position: relative;
+ display: block;
+ width: 200px;
+}
+
+.bar:before, .bar:after {
+ content: '';
+ height: 2px;
+ width: 0;
+ bottom: 1px;
+ position: absolute;
+ background: #5264AE;
+ transition: 0.2s ease all;
+ -moz-transition: 0.2s ease all;
+ -webkit-transition: 0.2s ease all;
+}
+
+.bar:before {
+ left: 50%;
+}
+
+.bar:after {
+ right: 50%;
+}
+
+.input:focus ~ .bar:before, .input:focus ~ .bar:after {
+ width: 50%;
+}
+
+.highlight {
+ position: absolute;
+ height: 60%;
+ width: 100px;
+ top: 25%;
+ left: 0;
+ pointer-events: none;
+ opacity: 0.5;
+}
+
+.input:focus ~ .highlight {
+ animation: inputHighlighter 0.3s ease;
+}
+
+@keyframes inputHighlighter {
+ from {
+  background: #5264AE;
+ }
+
+ to {
+  width: 0;
+  background: transparent;
+ }
+}
